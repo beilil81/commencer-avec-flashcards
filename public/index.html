@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinguaFlow — Traducteur élégant</title>
+  <meta name="description" content="Traduisez instantanément entre français, anglais, espagnol et arabe." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Cercles décoratifs animés en arrière-plan -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <main class="container">
+    <header class="header">
+      <h1 class="logo">
+        <span class="logo-icon">🌸</span>
+        LinguaFlow
+      </h1>
+      <p class="tagline">Apprenez et traduisez entre 4 langues</p>
+    </header>
+
+    <!-- Onglets de navigation -->
+    <nav class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="translate" role="tab" aria-selected="true">
+        <span class="tab-icon">🌐</span> Traduire
+      </button>
+      <button class="tab-btn" data-tab="flashcards" role="tab" aria-selected="false">
+        <span class="tab-icon">🎴</span> Flashcards
+      </button>
+    </nav>
+
+    <!-- Panneau Traduction -->
+    <div id="tab-translate" class="tab-panel active">
+    <section class="translator-card">
+      <!-- Sélecteurs de langue avec bouton "inverser" entre les deux -->
+      <div class="lang-row">
+        <select id="lang-from" class="lang-select" aria-label="Langue source">
+          <option value="fr">🇫🇷 Français</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="ar">🇸🇦 العربية</option>
+        </select>
+
+        <button id="swap-btn" class="swap-btn" aria-label="Inverser les langues" title="Inverser les langues">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 16V4M7 4L3 8M7 4l4 4" />
+            <path d="M17 8v12M17 20l4-4M17 20l-4-4" />
+          </svg>
+        </button>
+
+        <select id="lang-to" class="lang-select" aria-label="Langue cible">
+          <option value="en">🇬🇧 English</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="ar">🇸🇦 العربية</option>
+        </select>
+      </div>
+
+      <!-- Zone texte source -->
+      <div class="text-zone">
+        <textarea
+          id="input-text"
+          class="text-area"
+          placeholder="Tapez votre texte ici…"
+          maxlength="500"
+          rows="4"
+          aria-label="Texte à traduire"
+        ></textarea>
+        <div class="zone-footer">
+          <span id="char-count" class="char-count">0 / 500</span>
+          <button id="translate-btn" class="translate-btn">
+            <span class="btn-text">Traduire</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Zone résultat -->
+      <div class="text-zone result-zone">
+        <div id="output-text" class="output-area" aria-live="polite">
+          <span class="placeholder">La traduction apparaîtra ici…</span>
+        </div>
+        <div class="zone-footer">
+          <button id="speak-btn" class="icon-btn" aria-label="Écouter la prononciation" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 5L6 9H2v6h4l5 4V5z" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+            </svg>
+          </button>
+          <button id="copy-btn" class="icon-btn" aria-label="Copier la traduction" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            <span class="copy-feedback">Copié !</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Historique des dernières traductions -->
+    <section class="history-card" id="history-section" hidden>
+      <div class="history-header">
+        <h2 class="history-title">Historique</h2>
+        <button id="clear-history-btn" class="clear-btn">Effacer</button>
+      </div>
+      <ul id="history-list" class="history-list"></ul>
+    </section>
+    </div><!-- /tab-translate -->
+
+    <!-- Panneau Flashcards -->
+    <div id="tab-flashcards" class="tab-panel">
+      <section class="flashcards-card">
+        <!-- Sélecteur de thème -->
+        <div class="theme-row" id="theme-row" role="tablist" aria-label="Thèmes"></div>
+
+        <!-- Indicateur de progression -->
+        <div class="fc-progress">
+          <span id="fc-counter">1 / 15</span>
+          <div class="fc-progress-bar"><div id="fc-progress-fill" class="fc-progress-fill"></div></div>
+        </div>
+
+        <!-- Carte retournable -->
+        <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="Retourner la carte">
+          <div class="flashcard-inner">
+            <div class="flashcard-face flashcard-front">
+              <span class="face-lang" id="fc-front-lang">FR</span>
+              <span class="face-text" id="fc-front-text">Bonjour</span>
+              <span class="face-hint">Cliquez pour retourner</span>
+            </div>
+            <div class="flashcard-face flashcard-back">
+              <span class="face-lang" id="fc-back-lang">EN</span>
+              <span class="face-text" id="fc-back-text">Hello</span>
+              <button id="fc-speak-btn" class="icon-btn fc-speak" aria-label="Écouter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contrôles -->
+        <div class="fc-controls">
+          <button id="fc-prev-btn" class="fc-nav-btn" aria-label="Carte précédente">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button id="fc-flip-btn" class="fc-flip-btn">Retourner</button>
+          <button id="fc-next-btn" class="fc-nav-btn" aria-label="Carte suivante">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <button id="fc-shuffle-btn" class="fc-shuffle-btn">🔀 Mélanger</button>
+      </section>
+    </div><!-- /tab-flashcards -->
+
+    <footer class="footer">
+      <p>Propulsé par <a href="https://mymemory.translated.net/" target="_blank" rel="noopener">MyMemory API</a></p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
