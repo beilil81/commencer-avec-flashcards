@@ -3,6 +3,31 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+// URL publique de votre site, définie via variable d'environnement sur l'hébergeur.
+// Sur Render : Settings → Environment → ajoutez SITE_URL=https://linguaflow.onrender.com
+const SITE_URL = process.env.SITE_URL || 'https://your-domain.com';
+
+// robots.txt — indique aux moteurs ce qui peut être indexé
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain').send(
+    `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`
+  );
+});
+
+// sitemap.xml — liste les URLs publiques
+app.get('/sitemap.xml', (req, res) => {
+  const today = new Date().toISOString().split('T')[0];
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${SITE_URL}/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>`;
+  res.type('application/xml').send(xml);
+});
 
 // Sert les fichiers statiques (HTML, CSS, JS) depuis le dossier /public
 app.use(express.static(path.join(__dirname, 'public')));

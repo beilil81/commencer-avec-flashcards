@@ -448,6 +448,49 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft')  prevCard();
 });
 
+// === Bannière cookies + tracking conditionnel ===
+// Cloudflare Analytics est chargé directement dans index.html (pas de cookies, RGPD OK).
+// Microsoft Clarity n'est chargé que si l'utilisateur a accepté.
+
+const CONSENT_KEY = 'linguaflow-consent';
+// ⚠️ REMPLACEZ par votre Project ID Clarity (https://clarity.microsoft.com/)
+const CLARITY_PROJECT_ID = 'YOUR_CLARITY_PROJECT_ID';
+
+const cookieBanner   = document.getElementById('cookie-banner');
+const cookieAcceptBtn = document.getElementById('cookie-accept');
+const cookieDeclineBtn = document.getElementById('cookie-decline');
+
+function loadClarity() {
+  if (CLARITY_PROJECT_ID === 'YOUR_CLARITY_PROJECT_ID') return; // pas configuré
+  (function(c, l, a, r, i, t, y){
+    c[a] = c[a] || function() { (c[a].q = c[a].q || []).push(arguments); };
+    t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+    y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+  })(window, document, 'clarity', 'script', CLARITY_PROJECT_ID);
+}
+
+function hideBanner() {
+  cookieBanner.classList.add('hiding');
+  setTimeout(() => { cookieBanner.hidden = true; }, 300);
+}
+
+const consent = localStorage.getItem(CONSENT_KEY);
+if (!consent) {
+  cookieBanner.hidden = false;
+} else if (consent === 'accepted') {
+  loadClarity();
+}
+
+cookieAcceptBtn.addEventListener('click', () => {
+  localStorage.setItem(CONSENT_KEY, 'accepted');
+  loadClarity();
+  hideBanner();
+});
+cookieDeclineBtn.addEventListener('click', () => {
+  localStorage.setItem(CONSENT_KEY, 'declined');
+  hideBanner();
+});
+
 // === Initialisation ===
 renderHistory();
 buildThemeChips();

@@ -3,12 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LinguaFlow — Traducteur élégant</title>
-  <meta name="description" content="Traduisez instantanément entre français, anglais, espagnol et arabe." />
+  <meta name="theme-color" content="#7c5cff" />
+
+  <!-- SEO de base -->
+  <title>LinguaFlow — Traducteur gratuit & flashcards : français, anglais, espagnol, arabe</title>
+  <meta name="description" content="Traduisez instantanément entre français, anglais, espagnol et arabe. Apprenez avec 60 flashcards gratuites organisées par thèmes. Gratuit, sans inscription." />
+  <meta name="keywords" content="traducteur gratuit, traduction français anglais, traduction arabe, flashcards langues, apprendre l'espagnol, traducteur en ligne" />
+  <meta name="author" content="LinguaFlow" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- À REMPLACER après déploiement par votre vraie URL (ex : https://linguaflow.onrender.com) -->
+  <link rel="canonical" href="https://your-domain.com/" />
+
+  <!-- Open Graph (partage Facebook, WhatsApp, LinkedIn…) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://your-domain.com/" />
+  <meta property="og:title" content="LinguaFlow — Traducteur & flashcards gratuits" />
+  <meta property="og:description" content="Traduisez et apprenez entre français, anglais, espagnol et arabe. 60 flashcards thématiques incluses." />
+  <meta property="og:image" content="https://your-domain.com/og-image.png" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="es_ES" />
+  <meta property="og:locale:alternate" content="ar_SA" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="LinguaFlow — Traducteur & flashcards gratuits" />
+  <meta name="twitter:description" content="Traduisez et apprenez entre français, anglais, espagnol et arabe." />
+  <meta name="twitter:image" content="https://your-domain.com/og-image.png" />
+
+  <!-- Favicon SVG inline (emoji fleur) — pas besoin de fichier externe -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌸%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌸%3C/text%3E%3C/svg%3E" />
+
+  <!-- Données structurées JSON-LD (rich snippets Google) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "LinguaFlow",
+    "description": "Traducteur gratuit et flashcards entre français, anglais, espagnol et arabe.",
+    "url": "https://your-domain.com/",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript and a modern browser",
+    "inLanguage": ["fr", "en", "es", "ar"],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    }
+  }
+  </script>
+
+  <!-- Polices -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
+  <!--
+    ===== TRACKING — À ACTIVER APRÈS CRÉATION DES COMPTES =====
+    1) Cloudflare Web Analytics (gratuit, sans cookies, conforme RGPD sans bannière)
+       → Créez un compte sur https://dash.cloudflare.com/?to=/:account/web-analytics
+       → Remplacez YOUR_CLOUDFLARE_TOKEN et décommentez :
+  -->
+  <!--
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+          data-cf-beacon='{"token": "YOUR_CLOUDFLARE_TOKEN"}'></script>
+  -->
+
+  <!--
+    2) Microsoft Clarity (gratuit, heatmaps + enregistrements de sessions)
+       → Créez un projet sur https://clarity.microsoft.com/
+       → Remplacez YOUR_CLARITY_PROJECT_ID dans script.js (chargé après consentement)
+  -->
 </head>
 <body>
   <!-- Cercles décoratifs animés en arrière-plan -->
@@ -172,6 +241,20 @@
       <p>Propulsé par <a href="https://mymemory.translated.net/" target="_blank" rel="noopener">MyMemory API</a></p>
     </footer>
   </main>
+
+  <!-- Bannière cookies (n'apparaît qu'au premier visiteur) -->
+  <div id="cookie-banner" class="cookie-banner" hidden>
+    <div class="cookie-content">
+      <p class="cookie-text">
+        🍪 Nous utilisons un outil d'analyse anonyme (Microsoft Clarity) pour améliorer votre expérience.
+        Cloudflare Analytics est utilisé sans cookies. Vous pouvez refuser sans conséquence.
+      </p>
+      <div class="cookie-actions">
+        <button id="cookie-decline" class="cookie-btn cookie-btn-secondary">Refuser</button>
+        <button id="cookie-accept" class="cookie-btn cookie-btn-primary">Accepter</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
